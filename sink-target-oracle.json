@@ -1,0 +1,21 @@
+{
+    "name": "oracle-connector",
+    "config": {
+        "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+        "tasks.max": "1",
+        "topics": "customers",
+        "connection.url": "jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=example.com)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=mysrvc)))",
+        "connection.user": "USER",
+        "connection.password": "PASSWORD",
+        "auto.evolve": "true",
+        "auto.create": "true",
+        "insert.mode": "upsert",
+        "pk.mode":"record_value",
+        "pk.fields":"id",
+        "transforms":"unwrap,dropPrefix",
+        "transforms.unwrap.type": "io.debezium.transforms.UnwrapFromEnvelope",
+        "transforms.dropPrefix.type":"org.apache.kafka.connect.transforms.RegexRouter",
+        "transforms.dropPrefix.regex":"(.*)",
+        "transforms.dropPrefix.replacement":"CUSTOMERS"
+    }
+}
